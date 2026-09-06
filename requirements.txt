@@ -1,0 +1,15 @@
+pandas
+numpy
+matplotlib
+scipy
+scikit-learn
+xarray
+pyarrow
+requests
+pillow
+timm
+torch
+torchvision
+ipykernel
+nbconvert
+ipywidgets
