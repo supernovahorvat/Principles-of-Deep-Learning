@@ -1,0 +1,132 @@
+{
+  "assembly": "dicarlo.Rajalingham2018.public",
+  "export_date_utc": "2026-09-10T10:31:21.722339+00:00",
+  "extraction_date_utc": null,
+  "feature_provenance": {
+    "origin": "legacy_cache_checked_on_8_images",
+    "extracted_at_utc": null,
+    "validated_against": {
+      "model_name": "eva02_base_patch14_448.mim_in22k_ft_in22k_in1k",
+      "weights_sha256": "3c30b6c269c55efecbaf1b53fe5b3e447e59730d66dfd8962fc1fab730a9fa8a",
+      "timm_version": "1.0.28",
+      "torch_version": "2.13.0+cu126",
+      "feature_dim": 768,
+      "data_config": {
+        "input_size": [
+          3,
+          448,
+          448
+        ],
+        "interpolation": "bicubic",
+        "mean": [
+          0.48145466,
+          0.4578275,
+          0.40821073
+        ],
+        "std": [
+          0.26862954,
+          0.26130258,
+          0.27577711
+        ],
+        "crop_pct": 1.0,
+        "crop_mode": "squash"
+      }
+    },
+    "features_sha256": "f480c70a3c6b18598e85853cdd488a5c85174210d0b21cb3f20068c493ce020e",
+    "last_validation_utc": "2026-09-10T10:31:20.928839+00:00",
+    "n_fresh_examples_checked": 8
+  },
+  "model": {
+    "variant": "eva02_base_patch14_448.mim_in22k_ft_in22k_in1k",
+    "timm_version": "1.0.28",
+    "torch_version": "2.13.0+cu126",
+    "python_version": "3.14.5",
+    "input_resolution": "448x448",
+    "input_channels": 3,
+    "feature_dim": 768,
+    "preprocessing": {
+      "interpolation": "bicubic",
+      "crop_pct": 1.0,
+      "crop_mode": "squash",
+      "mean": [
+        0.48145466,
+        0.4578275,
+        0.40821073
+      ],
+      "std": [
+        0.26862954,
+        0.26130258,
+        0.27577711
+      ],
+      "masking": "none -- full-bleed 224x224 greyscale photos, no circular mask (corrected from original brief)"
+    },
+    "determinism_check": {
+      "n_images_checked": 8,
+      "bit_identical_across_two_runs": true,
+      "max_abs_diff": 0.0
+    }
+  },
+  "counts": {
+    "n_images_total": 2160,
+    "n_images_probe_train": 1920,
+    "n_images_scored": 240,
+    "n_categories": 24,
+    "n_trials_raw": 585511,
+    "n_trials_excluded": 2,
+    "n_trials_exported": 585509
+  },
+  "selection": {
+    "criterion": "top 10 images per category (24 categories) by total human trial count (computed on trials after excluding the 2 malformed-choice trials), ties broken by image_id ascending; deterministic, no seed",
+    "gate_check": {
+      "description": "correlation between per-image trial count and per-image human accuracy, across all 2160 images, computed before selecting the 240",
+      "pearson_r": 0.003907377980274251,
+      "spearman_r": 0.023095886335675837,
+      "result": "descriptive association check; does not establish unbiased selection"
+    }
+  },
+  "excluded_trials": [
+    {
+      "image_id": "bb365d4f14e020dfcdad25142c7324f341c555df",
+      "sample_obj": "dromedary",
+      "dist_obj": "lo_poly_animal_RHINO_2",
+      "choice": "womens_shorts_01M",
+      "subject_id": "A3SWGXM2TAC2RL",
+      "session_id": "25IVJ8EBDPGK92ACVTQ90NDWTGP0F0",
+      "reason": "choice matches neither sample_obj nor dist_obj"
+    },
+    {
+      "image_id": "2acb004a1a3dd0911a7b01c1375c5b331e731faa",
+      "sample_obj": "womens_stockings_01M",
+      "dist_obj": "dromedary",
+      "choice": "lo_poly_animal_RHINO_2",
+      "subject_id": "A3SWGXM2TAC2RL",
+      "session_id": "25IVJ8EBDPGK92ACVTQ90NDWTGP0F0",
+      "reason": "choice matches neither sample_obj nor dist_obj"
+    }
+  ],
+  "diagnostics": {
+    "cell_coverage_within_scored_240": {
+      "n_cells_observed": 5519,
+      "n_cells_max": 5520,
+      "n_cells_missing": 1,
+      "missing_pairs": [
+        {
+          "image_id": "8ef3c6a907e0014730e454a27f4f73a32d32f617",
+          "image_category": "weimaraner",
+          "missing_distractor": "interior_details_130_2"
+        }
+      ]
+    },
+    "per_cell_trial_counts_within_scored_240": {
+      "min": 1,
+      "q25": 14.0,
+      "median": 19.0,
+      "q75": 25.0,
+      "max": 64,
+      "n_below_3": 18,
+      "n_below_4": 46,
+      "n_below_5": 73,
+      "n_below_6": 127
+    }
+  }
+}

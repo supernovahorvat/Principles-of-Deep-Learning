@@ -1,8 +1,20 @@
 .venv/
 .venv311/
-scratchpad/
 .claude/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-data/
+
+# Downloaded selection-time model assets (ResNet-18 Places365, its category
+# list, the YuNet face detector) - auto-downloaded by notebook 05 on first
+# run from their public sources; see README.
+models/
+
+# Resumable feature-extraction cache for notebook 03 - auto-created on
+# first run; the actual deliverable (features.parquet) is tracked in data/.
+checkpoints/
+
+# Full per-block, per-patch-token EVA-02 activations for all 1,800 selected
+# NSD images (~31GB) - far too large for GitHub. Regenerate locally by
+# running notebook 06; see README.
+activations/

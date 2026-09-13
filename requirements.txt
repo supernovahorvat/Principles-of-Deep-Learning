@@ -7,6 +7,8 @@ xarray
 pyarrow
 requests
 pillow
+opencv-python
+h5py
 timm
 torch
 torchvision
