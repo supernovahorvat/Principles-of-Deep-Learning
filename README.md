@@ -28,11 +28,16 @@ behavioral data against human responses happens in a separate repository
    category composition, laying the groundwork for selecting a face/place
    subset.
 5. **`05_nsd_face_place_selection.ipynb`** - selects a balanced set of 900
-   face images and 900 place images from NSD, using a YuNet face detector and
-   a ResNet-18 Places365 scene classifier (both downloaded automatically on
-   first run - see **Models** below). Saves the chosen images to
+   face images and 900 place images from NSD's full ~73k-image pool, fully
+   automated: an image is labeled **face** if the YuNet detector finds a face
+   in it; it's labeled **place** if YuNet finds *no* face *and* a
+   Places365-trained ResNet-18 scores its top scene category above 0.5
+   confidence (all three model assets download automatically on first run -
+   see **Models** below for which does what). Saves the chosen images to
    `stimulus_subset/` and their metadata to
-   `data/nsd_face_place_stimulus_subset.csv`.
+   `data/nsd_face_place_stimulus_subset.csv` - both already committed in this
+   repo (see **What's included** below), so re-running this notebook only
+   matters if you want to redo or verify the selection yourself.
 6. **`06_nsd_export_pipeline.ipynb`** - runs every selected image through
    EVA-02-Base and captures the output of all 12 transformer blocks (not just
    a pooled vector - the full per-patch-token activations), saving two
@@ -55,13 +60,28 @@ run - no manual downloads:
   that bucket (for the `shared1000` subset) or directly from
   `images.cocodataset.org` otherwise.
 
-An internet connection is required the first time each notebook runs.
+This only matters if you actually run notebooks 02/04/05 yourself. The 1,800
+NSD images notebook 05 selects are **already committed in this repo** as
+real image files under `stimulus_subset/` (see **What's included** below) -
+not just a list of NSD image IDs - so notebook 06 (and anything else that
+just needs the selected images) needs no network access and no re-selection.
+
+An internet connection is required the first time each of notebooks 02, 04,
+and 05 runs.
 
 ### Models
 
-Notebook 05 needs three small assets for face detection and scene
-classification, auto-downloaded into `models/` (gitignored) the first time
-it runs if not already present:
+You only need these if you want to **reselect** the face/place images
+yourself - if you're just using the data already in this repo
+(`stimulus_subset/`), skip this section entirely. The models:
+
+- **YuNet** - face selection: any detection labels the image a face.
+- **Places365 (ResNet-18)** - place selection: scores 365 scene categories
+  for whatever YuNet didn't flag as a face; `categories_places365.txt` is
+  just that classifier's label list, not a model itself.
+
+All three auto-download into `models/` (gitignored) the first time notebook
+05 runs:
 
 | File | Size | Source |
 |---|---|---|
@@ -69,9 +89,8 @@ it runs if not already present:
 | `resnet18_places365.pth.tar` | 45MB | [places2.csail.mit.edu](http://places2.csail.mit.edu/models_places365/resnet18_places365.pth.tar) |
 | `categories_places365.txt` | 7KB | [CSAILVision/places365](https://raw.githubusercontent.com/CSAILVision/places365/master/categories_places365.txt) |
 
-No action needed unless you want them ahead of time or the auto-download
-fails (e.g. behind a firewall) - in that case, download each URL to the
-listed filename under `models/` manually.
+If the auto-download fails (e.g. behind a firewall), download each URL to
+the listed filename under `models/` manually.
 
 ### Hardware
 
@@ -105,19 +124,26 @@ run can resume rather than restart.
 - Fang, Y., Sun, Q., Wang, X., Huang, T., Wang, X., & Cao, Y. (2023). EVA-02:
   A visual representation for Neon Genesis. *arXiv*.
   https://doi.org/10.48550/arXiv.2303.11331
-- Rajalingham, R., Issa, E. B., Bashivan, P., Kar, K., Schmidt, K., & DiCarlo,
-  J. J. (2018). Large-scale, high-resolution comparison of the core visual
-  object recognition behavior of humans, monkeys, and state-of-the-art deep
-  artificial neural networks. *Journal of Neuroscience*, 38(33), 7255-7269.
+- Rajalingham, R., Issa, E. B., Bashivan, P., Kar, K., Schmidt, K., &
+  DiCarlo, J. J. (2018). Large-scale, high-resolution comparison of the core
+  visual object recognition behavior of humans, monkeys, and
+  state-of-the-art deep artificial neural networks. *Journal of
+  Neuroscience*, 38(33), 7255–7269.
+  https://doi.org/10.1523/JNEUROSCI.0388-18.2018
+- Schrimpf, M., Kubilius, J., Hong, H., Majaj, N. J., Rajalingham, R., Issa,
+  E. B., Kar, K., Bashivan, P., Prescott-Roy, J., Schmidt, K., Yamins,
+  D. L. K., & DiCarlo, J. J. (2018). Brain-Score: Which artificial neural
+  network for object recognition is most brain-like? *bioRxiv*.
+  https://doi.org/10.1101/407007
 - Allen, E. J., St-Yves, G., Wu, Y., Breedlove, J. L., Prince, J. S., Dowdle,
   L. T., Nau, M., Caron, B., Pestilli, F., Charest, I., Hutchinson, J. B.,
-  Naselaris, T., & Kay, K. (2021). A massive 7T fMRI dataset to bridge
+  Naselaris, T., & Kay, K. (2022). A massive 7T fMRI dataset to bridge
   cognitive neuroscience and artificial intelligence. *Nature Neuroscience*,
-  24(1), 116-126.
-- Lin, T.-Y., Maire, M., Belongie, S., et al. (2014). Microsoft COCO: Common
-  objects in context. *ECCV*.
-- Zhou, B., Lapedriza, A., Khosla, A., Oliva, A., & Torralba, A. (2017).
-  Places: A 10 million image database for scene recognition. *IEEE TPAMI*.
-- Face detector: [YuNet](https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet), OpenCV Zoo.
+  25, 116–126.
+  https://doi.org/10.1038/s41593-021-00962-x
+- YuNet face detector. OpenCV Zoo.
+  https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet
+- ResNet-18 Places365 scene classifier. CSAILVision.
+  https://github.com/CSAILVision/places365
 
 The code in this repository was co-authored with Claude (Anthropic).
